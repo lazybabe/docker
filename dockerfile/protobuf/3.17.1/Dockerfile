@@ -1,9 +1,6 @@
 FROM golang:1.16-alpine AS go-builder
 
-ENV GOPROXY=https://goproxy.io,direct
-
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
-    && apk add upx \
+RUN apk add upx \
     && go get -u google.golang.org/protobuf/cmd/protoc-gen-go@v1.26.0 \
     && go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1.0 \
     && go get -u github.com/envoyproxy/protoc-gen-validate@v0.6.1 \
