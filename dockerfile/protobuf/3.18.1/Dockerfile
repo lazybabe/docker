@@ -1,6 +1,6 @@
 FROM --platform=$BUILDPLATFORM pratikimprowise/upx AS upx
 
-FROM golang:1.17-alpine AS go-builder
+FROM --platform=$BUILDPLATFORM golang:1.17-alpine AS go-builder
 
 COPY --from=upx / /
 
@@ -19,7 +19,7 @@ FROM alpine:3
 
 COPY --from=go-builder /go/bin/* /usr/local/bin/
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories \
     && apk add --no-cache protobuf=3.18.1-r1 protobuf-dev=3.18.1-r1
 
 ENTRYPOINT ["/usr/bin/protoc"]
